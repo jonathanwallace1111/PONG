@@ -1,0 +1,41 @@
+body {
+    margin: 0; 
+}
+
+.score {
+    display: inline; 
+    font-size: 50px;  
+}
+
+.scoreDisplay {
+    margin-right: 100px;
+}
+
+#mainWrapper {
+    height: 100vh; 
+    width: 100vw; 
+    background-color: red;
+    color: blue; 
+}
+
+.menuWrapper {
+    position: fixed; 
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); 
+}
+
+.menuItem:hover {
+    cursor: pointer;
+}
+
+canvas {
+    border: black solid 1px;
+}
+
+.optionItem {
+    display: inline;
+    margin-right: 20px; 
+}
+
+
