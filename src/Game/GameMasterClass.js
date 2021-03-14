@@ -88,6 +88,7 @@ export default class GameMasterClass extends Component {
         this.backToMenu = this.backToMenu.bind(this); 
         this.restartGame = this.restartGame.bind(this); 
         this.setGameStats = this.setGameStats.bind(this); 
+        this.rightPaddleLogic = this.rightPaddleLogic.bind(this); 
     }
 
     setGameStats(key, value) {
@@ -176,34 +177,9 @@ export default class GameMasterClass extends Component {
             
         this.ball.futureLocation = ballClone.y; 
     }
-  
-    update() { 
-        //left paddle mechanics 
-        let leftPaddleBottom = this.paddles.left.top + this.paddles.size; 
-        let leftMovementStreak = 0; 
 
-        if (this.controller.up && this.paddles.left.top >= 50) {
-            this.paddles.left.top -= 5; 
-        }
-        if (this.controller.down && leftPaddleBottom <= 550) {
-            this.paddles.left.top += 5; 
-        }
-        
-        let leftPaddleHistory = this.paddles.left.movementHistory; 
-        leftPaddleHistory.push(this.paddles.left.isMoving); 
-        if (leftPaddleHistory.length >= 60) {
-            leftPaddleHistory.shift(); 
-        }
 
-        for (let i = 0; i < leftPaddleHistory.length; i++) { 
-            let reverseHistory = leftPaddleHistory.reverse(); 
-            if (reverseHistory[i] === true) {
-                leftMovementStreak += 1; 
-            } else {
-                break; 
-            }
-        }
-
+    rightPaddleLogic() {
         // right paddle mechanics
         let rightPaddleBottom = this.paddles.right.top + this.paddles.size; 
         let rightPaddleMiddle = this.paddles.right.top + (this.paddles.size / 2); 
@@ -234,6 +210,43 @@ export default class GameMasterClass extends Component {
 
         //links ball.y to right paddle
         // this.paddles.right.top = this.ball.y -30; 
+
+    }
+  
+    update() { 
+        //left paddle mechanics 
+
+
+        let leftPaddleBottom = this.paddles.left.top + this.paddles.size; 
+        let leftMovementStreak = 0; 
+
+        if (this.controller.up && this.paddles.left.top >= 50) {
+            this.paddles.left.top -= 5; 
+        }
+        if (this.controller.down && leftPaddleBottom <= 550) {
+            this.paddles.left.top += 5; 
+        }
+        
+        let leftPaddleHistory = this.paddles.left.movementHistory; 
+        leftPaddleHistory.push(this.paddles.left.isMoving); 
+        if (leftPaddleHistory.length >= 60) {
+            leftPaddleHistory.shift(); 
+        }
+
+        for (let i = 0; i < leftPaddleHistory.length; i++) { 
+            let reverseHistory = leftPaddleHistory.reverse(); 
+            if (reverseHistory[i] === true) {
+                leftMovementStreak += 1; 
+            } else {
+                break; 
+            }
+        }
+
+        // right paddle mechanics
+
+        let rightPaddleBottom = this.paddles.right.top + this.paddles.size; 
+        let rightPaddleMiddle = this.paddles.right.top + (this.paddles.size / 2); 
+        this.rightPaddleLogic(); 
 
 
         // ball mechanics
@@ -289,23 +302,12 @@ export default class GameMasterClass extends Component {
             }
 
             let newHitCount = this.state.gameStats.totalHitCount + 1; 
-            this.setGameStats('totalHitCount', newHitCount); 
-
-            // this.setState({ totalHitCount: newHitCount })
-           
-            // this.setState(prevState => {
-            //     let gameStats = { ...prevState.gameStats}; 
-            //     gameStats.totalHitCount = newHitCount; 
-            //     return {gameStats}
-            // })
-
-            
+            this.setGameStats('totalHitCount', newHitCount);         
        
             this.ball.passedFirstHit = true; 
             this.updateBall(); 
             this.ball.direction = 'right'; 
             this.getBallFutureLocation(); 
-
         }
 
         //temp if (keeps ball bouncing even if I'm not playing)

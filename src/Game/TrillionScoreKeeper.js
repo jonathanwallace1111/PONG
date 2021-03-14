@@ -5,7 +5,7 @@ export default class TrillionScoreKeeper extends Component {
         super(props); 
 
         this.state = {
-            totalHitCount: this.props.totalHitCount,
+            totalHitCount: this.props.gameStats.totalHitCount
         }
 
         this.message = ''; 
@@ -19,8 +19,8 @@ export default class TrillionScoreKeeper extends Component {
      }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.totalHitCount !== this.props.totalHitCount) {
-            this.setState({ totalHitCount: this.props.totalHitCount })
+        if (prevProps.gameStats.totalHitCount !== this.props.gameStats.totalHitCount) {
+            this.setState({ totalHitCount: this.props.gameStats.totalHitCount })
             this.updateScore() 
         }
     }   
